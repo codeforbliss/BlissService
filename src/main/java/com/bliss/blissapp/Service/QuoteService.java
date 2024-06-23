@@ -22,7 +22,9 @@ public class QuoteService {
         quoteRepository.save(quote);
     }
 
-    public Optional<Quote> getQuoteById(@PathVariable Long id){
-        return quoteRepository.findById(id);
+    public Quote getRandomQuote() {
+        List<Quote> allQuotes = getAllQuotes();
+        int randomQuoteIndex = (int) Math.floor(Math.random() * (allQuotes.size()));
+        return allQuotes.get(randomQuoteIndex);
     }
 }

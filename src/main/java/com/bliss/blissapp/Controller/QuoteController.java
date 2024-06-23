@@ -28,8 +28,8 @@ public class QuoteController {
         quoteService.createQuote(quote);
     }
 
-    @GetMapping("/{id}")
-    public Optional<Quote> getQuoteById(@PathVariable Long id){
-        return quoteService.getQuoteById(id);
+    @GetMapping("/random")
+    public Quote getRandomQuote() {
+        return quoteService.getRandomQuote();
     }
 }
