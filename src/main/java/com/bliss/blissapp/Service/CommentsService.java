@@ -18,7 +18,6 @@ public class CommentsService {
 
     public Optional<Comments> getCommentById(Long id) {
         return commentsRepository.findById(id);
-
     }
 
     public void createComment(Comments comment){

@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Posts {
     @Id
     private UUID id;
-    private User author;
+    private String author;
     private String text;
     private String postDate;
 }
