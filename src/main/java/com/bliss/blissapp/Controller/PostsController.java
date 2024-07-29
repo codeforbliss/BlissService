@@ -17,18 +17,18 @@ public class PostsController {
 
     @GetMapping("/all")
     public List<Posts> getAllPosts(){
-        return this.postService.getAllPosts();
+        return postService.getAllPosts();
     }
 
     @GetMapping("/posts-nearby")
     public List<Posts> getPostsByUserNearby(@RequestBody Location location){
-        return this.postService.getPostsByUserNearby(location);
+        return postService.getPostsByUserNearby(location);
     }
 
     @PostMapping("/create")
     public void createPost(@RequestBody Posts post){
         post.setId(UUID.randomUUID());
-        this.postService.createPost(post);
+        postService.createPost(post);
     }
 
 }

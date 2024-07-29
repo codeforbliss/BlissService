@@ -24,7 +24,9 @@ public class PostService {
     }
 
     public List<Posts> getPostsByUserNearby(Location location) {
-        List<User> usersNearby = this.userService.findUserNearby(location, 100);
+        List<String> usersNearby = this.userService.findUserNearby(location, 100)
+            .stream().map(User::getUsername).toList();
+
         return postsRepository.findAll().stream()
             .filter(posts -> usersNearby.contains(posts.getAuthor()))
             .collect(Collectors.toList());

@@ -21,17 +21,17 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(this.authenticationService.register(request));
+        return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthenticationRequest request) {
-        return ResponseEntity.ok(this.authenticationService.authenticate(request));
+        return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
     @GetMapping("/expired")
     public ResponseEntity<Boolean> isTokenExpired(@RequestParam String token) {
-        return ResponseEntity.ok(this.jwtService.isTokenExpired(token));
+        return ResponseEntity.ok(jwtService.isTokenExpired(token));
     }
 
 }
