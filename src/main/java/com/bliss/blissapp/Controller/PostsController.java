@@ -1,16 +1,15 @@
 package com.bliss.blissapp.Controller;
 
+import com.bliss.blissapp.Model.Location;
 import com.bliss.blissapp.Model.Posts;
 import com.bliss.blissapp.Service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/api/posts")
 @RequiredArgsConstructor
 @CrossOrigin
 public class PostsController {
@@ -21,7 +20,12 @@ public class PostsController {
         return postService.getAllPosts();
     }
 
-    @PostMapping("/")
+    @GetMapping("/posts-nearby")
+    public List<Posts> getPostsByUserNearby(@RequestBody Location location){
+        return postService.getPostsByUserNearby(location);
+    }
+
+    @PostMapping("/create")
     public void createPost(@RequestBody Posts post){
         post.setId(UUID.randomUUID());
         postService.createPost(post);

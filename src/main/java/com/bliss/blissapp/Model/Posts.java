@@ -1,13 +1,9 @@
 package com.bliss.blissapp.Model;
-
-import lombok.Data;
 import org.springframework.data.annotation.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.Date;
 import java.util.UUID;
 
 @RequiredArgsConstructor

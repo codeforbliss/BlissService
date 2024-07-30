@@ -32,6 +32,7 @@ public class AuthenticationService {
                 .id(UUID.randomUUID().toString())
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .location(null)
                 .role(Role.USER)
                 .build();
         userRepository.save(user);
