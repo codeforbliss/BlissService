@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.Date;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -15,5 +17,5 @@ public class Posts {
     private UUID id;
     private String author;
     private String text;
-    private String postDate;
+    private Date postDate;
 }
