@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -18,4 +19,9 @@ public class Posts {
     private String author;
     private String text;
     private Date postDate;
+    private ArrayList<UUID> commentIds = new ArrayList<>();
+
+    public void setCommentIds(ArrayList<UUID> commentIds) {
+        this.commentIds = commentIds != null ? commentIds : new ArrayList<>();
+    }
 }

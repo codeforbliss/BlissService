@@ -1,20 +1,15 @@
 package com.bliss.blissapp.Controller;
 
 import com.bliss.blissapp.Model.Comments;
-import com.bliss.blissapp.Model.Posts;
 import com.bliss.blissapp.Service.CommentsService;
-import com.bliss.blissapp.Service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.checkerframework.checker.units.qual.C;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.stream.events.Comment;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequestMapping("/comments")
+@RequestMapping("api/comments")
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin

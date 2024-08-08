@@ -1,5 +1,6 @@
 package com.bliss.blissapp.Controller;
 
+import com.bliss.blissapp.Model.Comments;
 import com.bliss.blissapp.Model.Location;
 import com.bliss.blissapp.Model.Posts;
 import com.bliss.blissapp.Service.PostService;
@@ -29,6 +30,11 @@ public class PostsController {
     public void createPost(@RequestBody Posts post){
         post.setId(UUID.randomUUID());
         postService.createPost(post);
+    }
+
+    @GetMapping("/{postId}/comments")
+    public List<Comments> getCommentsByPostId(@PathVariable UUID postId) {
+        return postService.getCommentsByPostId(postId);
     }
 
 }
