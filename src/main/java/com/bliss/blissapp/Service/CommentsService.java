@@ -18,8 +18,9 @@ public class CommentsService {
     private final MongoTemplate mongoTemplate;
     private final CommentsRepository commentsRepository;
 
-    public Optional<Comments> getCommentById(UUID id) {
-        return commentsRepository.findById(id);
+    public Comments getCommentById(UUID id) {
+        return commentsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Comment not found"));
     }
 
     public void createComment(Comments comment){

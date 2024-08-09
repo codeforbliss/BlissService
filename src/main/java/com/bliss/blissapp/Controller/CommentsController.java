@@ -26,7 +26,7 @@ public class CommentsController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Comments> getCommentById(@PathVariable UUID id){
+    public Comments getCommentById(@PathVariable UUID id){
         return commentsService.getCommentById(id);
     }
 
