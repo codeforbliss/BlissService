@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -16,21 +18,22 @@ public class CommentsService {
     private final MongoTemplate mongoTemplate;
     private final CommentsRepository commentsRepository;
 
-    public Optional<Comments> getCommentById(Long id) {
-        return commentsRepository.findById(id);
+    public Comments getCommentById(UUID id) {
+        return commentsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Comment not found"));
     }
 
     public void createComment(Comments comment){
         commentsRepository.save(comment);
     }
 
-    public void deleteCommentById(Long id){
+    public void deleteCommentById(UUID id){
         commentsRepository.deleteById(id);
     }
 
-    public List<Comments> getAllCommentsByPostId(Long postId) {
+    public List<Comments> getAllCommentsByEntityId(UUID entityId) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("postId").is(postId));
+        query.addCriteria(Criteria.where("entityId").is(entityId));
         return mongoTemplate.find(query, Comments.class);
     }
 }

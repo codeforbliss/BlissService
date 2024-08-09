@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -18,6 +18,6 @@ public class Comments {
     private UUID id;
     private String text;
     private String author;
-    private int postId;
-    private String time;
+    private UUID entityId;
+    private Instant date;
 }

@@ -1,44 +1,42 @@
 package com.bliss.blissapp.Controller;
 
 import com.bliss.blissapp.Model.Comments;
-import com.bliss.blissapp.Model.Posts;
 import com.bliss.blissapp.Service.CommentsService;
-import com.bliss.blissapp.Service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.checkerframework.checker.units.qual.C;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.stream.events.Comment;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequestMapping("/comments")
+@RequestMapping("/api/comments")
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin
 public class CommentsController {
     private final CommentsService commentsService;
 
-    @PostMapping("/")
-    public void createComment(@RequestBody Comments comment){
+    @PostMapping("/create/{entityId}")
+    public void createComment(@RequestBody Comments comment, @PathVariable UUID entityId){
         comment.setId(UUID.randomUUID());
+        comment.setEntityId(entityId);
+        comment.setDate(Instant.now());
         commentsService.createComment(comment);
     }
 
     @GetMapping("/{id}")
-    public Optional<Comments> getCommentById(@PathVariable Long id){
+    public Comments getCommentById(@PathVariable UUID id){
         return commentsService.getCommentById(id);
     }
 
-    @GetMapping("/by-postId/{postId}")
-    public List<Comments> findCommentsByPostId(@PathVariable Long postId) {
-        return commentsService.getAllCommentsByPostId(postId);
+    @GetMapping("/entity/{entityId}")
+    public List<Comments> findCommentsByEntityId(@PathVariable UUID entityId) {
+        return commentsService.getAllCommentsByEntityId(entityId);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteCommentById(Long id) {
+    public void deleteCommentById(UUID id) {
         commentsService.deleteCommentById(id);
     }
 }
