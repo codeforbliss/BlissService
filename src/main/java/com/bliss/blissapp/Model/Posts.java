@@ -4,9 +4,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +18,6 @@ public class Posts {
     private UUID id;
     private String author;
     private String text;
-    private Date postDate;
+    private Instant postDate;
     private List<UUID> comments = new ArrayList<>();
 }

@@ -4,14 +4,10 @@ import com.bliss.blissapp.Model.Comments;
 import com.bliss.blissapp.Repository.CommentsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.springframework.data.mongodb.core.MongoTemplate;
-
-import javax.xml.stream.events.Comment;
 
 @Service
 @RequiredArgsConstructor

@@ -5,12 +5,9 @@ import com.bliss.blissapp.Model.Location;
 import com.bliss.blissapp.Model.Posts;
 import com.bliss.blissapp.Service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.apache.http.protocol.HTTP;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.xml.stream.events.Comment;
 import java.util.List;
 import java.util.UUID;
 
