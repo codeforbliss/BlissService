@@ -4,13 +4,11 @@ import com.bliss.blissapp.Model.Comments;
 import com.bliss.blissapp.Model.Location;
 import com.bliss.blissapp.Model.Posts;
 import com.bliss.blissapp.Model.User;
-import com.bliss.blissapp.Repository.CommentsRepository;
 import com.bliss.blissapp.Repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,6 +16,7 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostsRepository postsRepository;
     private final UserService userService;
+    private final CommentsService commentsService;
 
     public List<Posts> getAllPosts() {
         return postsRepository.findAll();
@@ -32,8 +31,18 @@ public class PostService {
             .collect(Collectors.toList());
     }
 
-    public void createPost(Posts post){
-        postsRepository.save(post);
+    public Posts createPost(Posts post) {
+        post.setId(UUID.randomUUID());
+        return postsRepository.save(post);
+    }
+
+    public Comments addComment(UUID id, Comments comment) {
+        return postsRepository.findById(id).map(post -> {
+            commentsService.createComment(comment);
+            post.getComments().add(comment.getId());
+            postsRepository.save(post);
+            return comment;
+        }).orElseThrow(() -> new RuntimeException("Post not found"));
     }
 
 }
