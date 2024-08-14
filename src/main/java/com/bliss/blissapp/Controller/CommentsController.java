@@ -17,6 +17,11 @@ import java.util.UUID;
 public class CommentsController {
     private final CommentsService commentsService;
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Comments>> getAllComments() {
+        return new ResponseEntity<>(commentsService.findAll(), HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Comments> createComment(@RequestBody Comments comment) {
         return new ResponseEntity<>(commentsService.createComment(comment), HttpStatus.CREATED);

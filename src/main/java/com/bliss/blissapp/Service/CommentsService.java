@@ -4,6 +4,8 @@ import com.bliss.blissapp.Model.Comments;
 import com.bliss.blissapp.Repository.CommentsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.xml.stream.events.Comment;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +15,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CommentsService {
     private final CommentsRepository commentsRepository;
+
+    public List<Comments> findAll() {
+        return commentsRepository.findAll();
+    }
 
     public Comments getCommentById(UUID id) {
         return commentsRepository.findById(id)
