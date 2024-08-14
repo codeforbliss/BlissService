@@ -33,11 +33,11 @@ public class CommentsController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Boolean> deleteCommentById(@PathVariable UUID id) {
-        if (commentsService.deleteCommentById(id)) {
-            return new ResponseEntity<>(true, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> deleteCommentById(@PathVariable UUID id) {
+        try {
+            return new ResponseEntity<>(commentsService.deleteCommentById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -51,7 +51,7 @@ public class CommentsController {
         }
     }
 
-    @PostMapping("/batch")
+    @GetMapping("/batch")
     public ResponseEntity<List<Comments>> getCommentsByIds(@RequestBody List<UUID> ids) {
         List<Comments> comments = commentsService.findAllById(ids);
         return new ResponseEntity<>(comments, HttpStatus.OK);

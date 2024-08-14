@@ -39,15 +39,10 @@ public class CommentsService {
     }
 
     public boolean deleteCommentById(UUID id) {
-        Optional<Comments> optionalComment = commentsRepository.findById(id);
-        if (optionalComment.isPresent()) {
-            Comments comment = optionalComment.get();
+        Comments comment = commentsRepository.findById(id).orElseThrow(() -> new RuntimeException("Comment not found"));
             deleteNestedComments(comment.getComments());
             commentsRepository.delete(comment);
             return true;
-        } else {
-            return false;
-        }
     }
 
     private void deleteNestedComments(List<UUID> commentIDs) {
