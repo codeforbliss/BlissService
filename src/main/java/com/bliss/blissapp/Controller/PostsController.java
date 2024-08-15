@@ -1,5 +1,6 @@
 package com.bliss.blissapp.Controller;
 
+import com.bliss.blissapp.DTO.PostsDTO;
 import com.bliss.blissapp.Model.Comments;
 import com.bliss.blissapp.Model.Location;
 import com.bliss.blissapp.Model.Posts;
@@ -19,17 +20,17 @@ public class PostsController {
     private final PostService postService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Posts>> getAllPosts() {
+    public ResponseEntity<List<PostsDTO>> getAllPosts() {
         return new ResponseEntity<>(postService.getAllPosts(), HttpStatus.OK);
     }
 
     @GetMapping("/posts-nearby")
-    public ResponseEntity<List<Posts>> getPostsByUserNearby(@RequestBody Location location){
+    public ResponseEntity<List<PostsDTO>> getPostsByUserNearby(@RequestBody Location location){
         return new ResponseEntity<>(postService.getPostsByUserNearby(location), HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Posts> createPost(@RequestBody Posts post) {
+    public ResponseEntity<PostsDTO> createPost(@RequestBody Posts post) {
         return new ResponseEntity<>(postService.createPost(post), HttpStatus.CREATED);
     }
 

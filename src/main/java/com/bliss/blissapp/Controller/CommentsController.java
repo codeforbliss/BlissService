@@ -1,5 +1,6 @@
 package com.bliss.blissapp.Controller;
 
+import com.bliss.blissapp.DTO.CommentsDTO;
 import com.bliss.blissapp.Model.Comments;
 import com.bliss.blissapp.Service.CommentsService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RequestMapping("/api/comments")
@@ -18,12 +20,12 @@ public class CommentsController {
     private final CommentsService commentsService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Comments>> getAllComments() {
+    public ResponseEntity<List<CommentsDTO>> getAllComments() {
         return new ResponseEntity<>(commentsService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Comments> createComment(@RequestBody Comments comment) {
+    public ResponseEntity<CommentsDTO> createComment(@RequestBody Comments comment) {
         return new ResponseEntity<>(commentsService.createComment(comment), HttpStatus.CREATED);
     }
 
@@ -57,8 +59,9 @@ public class CommentsController {
     }
 
     @GetMapping("/batch")
-    public ResponseEntity<List<Comments>> getCommentsByIds(@RequestBody List<UUID> ids) {
-        List<Comments> comments = commentsService.findAllById(ids);
+    public ResponseEntity<List<CommentsDTO>> getCommentsByIds(@RequestParam List<UUID> ids) {
+        List<CommentsDTO> comments = commentsService.findAllById(ids);
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
+
 }
