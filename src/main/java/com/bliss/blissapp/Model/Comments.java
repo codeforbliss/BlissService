@@ -6,7 +6,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.xml.stream.events.Comment;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -18,6 +21,6 @@ public class Comments {
     private UUID id;
     private String text;
     private String author;
-    private UUID entityId;
     private Instant date;
+    private List<UUID> comments = new ArrayList<>();
 }

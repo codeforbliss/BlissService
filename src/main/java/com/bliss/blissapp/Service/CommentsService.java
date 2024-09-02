@@ -1,39 +1,72 @@
 package com.bliss.blissapp.Service;
 
+import com.bliss.blissapp.DTO.CommentsDTO;
+import com.bliss.blissapp.Mapper.ContentMapper;
 import com.bliss.blissapp.Model.Comments;
 import com.bliss.blissapp.Repository.CommentsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+import javax.xml.stream.events.Comment;
+import java.time.Instant;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CommentsService {
-    private final MongoTemplate mongoTemplate;
     private final CommentsRepository commentsRepository;
+    private final ContentMapper contentMapper;
 
-    public Comments getCommentById(UUID id) {
-        return commentsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Comment not found"));
+    public List<CommentsDTO> findAll() {
+        return commentsRepository.findAll().stream()
+            .map(comment -> contentMapper.toCommentsDTO(comment, findAllById(comment.getComments())))
+            .collect(Collectors.toList());
     }
 
-    public void createComment(Comments comment){
-        commentsRepository.save(comment);
+    public CommentsDTO getCommentById(UUID id) {
+        Comments comment = commentsRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Comment not found"));
+        return contentMapper.toCommentsDTO(comment, findAllById(comment.getComments()));
     }
 
-    public void deleteCommentById(UUID id){
-        commentsRepository.deleteById(id);
+    public List<CommentsDTO> findAllById(List<UUID> ids) {
+        return commentsRepository.findAllById(ids).stream()
+            .map(comment -> contentMapper.toCommentsDTO(comment, findAllById(comment.getComments())))
+            .collect(Collectors.toList());
     }
 
-    public List<Comments> getAllCommentsByEntityId(UUID entityId) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("entityId").is(entityId));
-        return mongoTemplate.find(query, Comments.class);
+    public CommentsDTO createComment(Comments comment) {
+        comment.setId(UUID.randomUUID());
+        comment.setDate(Instant.now());
+        Comments savedComment = commentsRepository.save(comment);
+        return contentMapper.toCommentsDTO(savedComment, findAllById(comment.getComments()));
+    }
+
+    public CommentsDTO addComment(UUID id, Comments comment) {
+        return commentsRepository.findById(id).map(commentFound -> {
+            CommentsDTO savedComment = this.createComment(comment);
+            commentFound.getComments().add(savedComment.getId());
+            commentsRepository.save(commentFound);
+            return savedComment;
+        }).orElseThrow(() -> new RuntimeException("Parent comment not found"));
+    }
+
+    public boolean deleteCommentById(UUID id) {
+        Comments comment = commentsRepository.findById(id).orElseThrow(() -> new RuntimeException("Comment not found"));
+            deleteNestedComments(comment.getComments());
+            commentsRepository.delete(comment);
+            return true;
+    }
+
+    private void deleteNestedComments(List<UUID> commentIDs) {
+        for (UUID id : commentIDs) {
+            Optional<Comments> optionalComments = commentsRepository.findById(id);
+            if (optionalComments.isPresent()) {
+                Comments comments = optionalComments.get();
+                deleteNestedComments(comments.getComments());
+                commentsRepository.delete(comments);
+            }
+        }
     }
 }
